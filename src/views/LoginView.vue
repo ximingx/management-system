@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div id="login-form" @keyup.enter="inputInfo">
+    <div id="login-form">
       <h1>登陆界面</h1>
       <label for="username"><i class="el-icon-user-solid" style="color: #c1c1c1"></i></label>
       <input
@@ -22,14 +22,15 @@
         v-model.trim="password"
       />
       <div>
-        <el-button type="primary" v-on:click="inputInfo">登录</el-button>
-        <el-button type="info" @click="open2" v-on:click="resetInfo">重置</el-button>
+        <el-button type="primary">登录</el-button>
+        <el-button type="info">重置</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { ElButton } from "element-plus";
 const username = ref("");
 const password = ref("");
