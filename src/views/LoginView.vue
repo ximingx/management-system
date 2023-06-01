@@ -1,120 +1,107 @@
+<script lang="ts" setup>
+import { ref } from "vue";
+import LoginForm from "@/views/LoginView/LoginForm.vue";
+import { User, Comment } from "@element-plus/icons-vue";
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
+
+const accountRef = ref();
+const phoneRef = ref();
+
+function handleLogin() {
+  if (userStore.login.loginWay === "account") {
+    accountRef.value.handleLogin();
+  } else {
+    phoneRef.value.handleLogin();
+  }
+}
+</script>
+
 <template>
-  <div id="login">
-    <div id="login-form">
-      <h1>登陆界面</h1>
-      <label for="username"><i class="el-icon-user-solid" style="color: #c1c1c1"></i></label>
-      <input
-        type="text"
-        placeholder="用户名"
-        name="username"
-        id="username"
-        autocapitalize="off"
-        v-model.trim="username"
-        aria-autocomplete="off"
-      />
-      <label for="password"><i class="el-icon-right" style="color: #c1c1c1"></i></label>
-      <input
-        type="password"
-        placeholder="密码"
-        name="password"
-        id="password"
-        autocapitalize="off"
-        v-model.trim="password"
-      />
-      <div>
-        <el-button type="primary">登录</el-button>
-        <el-button type="info">重置</el-button>
+  <div class="login-box">
+    <div class="login-form">
+      <div class="login-title">后台管理系统</div>
+
+      <el-tabs type="border-card" v-model="userStore.login.loginWay" stretch>
+        <el-tab-pane name="account">
+          <template #label>
+            <el-icon><User /></el-icon>
+            <div>账号登录</div>
+          </template>
+          <LoginForm loginWay="account" ref="accountRef" />
+        </el-tab-pane>
+
+        <el-tab-pane name="phone">
+          <template #label>
+            <el-icon><Comment /></el-icon>
+            <div>手机号登录</div>
+          </template>
+          <LoginForm loginWay="phone" ref="phoneRef" />
+        </el-tab-pane>
+      </el-tabs>
+
+      <div class="login-controls">
+        <el-checkbox v-model="userStore.login.remember" label="记住密码" />
+        <span class="control-item">忘记密码</span>
       </div>
+
+      <el-button class="login-button" plain @click="handleLogin">登陆</el-button>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
-import { ElButton } from "element-plus";
-const username = ref("");
-const password = ref("");
-</script>
-
-<style lang="scss" scoped>
-#login {
+<style scoped lang="scss">
+@import "@/assets/css/main.scss";
+.login-box {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  position: relative;
-  background-image: url("@/assets/image/login.png");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#login-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50vw;
-  min-width: 300px;
-  max-width: 400px;
+.login-form {
+  width: 400px;
+  min-width: 25vw;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-size: $large-size;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 15px;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  justify-content: space-between;
 
-  h1 {
-    width: 60%;
-    margin: 50px auto 20px;
-    color: #c1c1c1;
+  .login-title {
+    font-size: $extra-large-size;
     text-align: center;
+    margin-bottom: 20px;
   }
 
-  input {
-    width: 60%;
-    margin: 15px auto;
-    outline: none;
-    border: none;
-    padding: 10px;
-    border-bottom: 1px solid #fff;
-    background: transparent;
-    color: white;
-  }
-
-  label {
-    width: 60%;
-    margin: 0 auto;
-    position: relative;
-    top: 30px;
-    left: -15px;
-  }
-
-  div {
-    width: 60%;
-    margin: 10px auto;
+  // tab样式
+  :deep(.el-tabs__item) {
     display: flex;
-    justify-content: center;
-    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
   }
 
-  button {
-    // rgba
-    background-color: rgba(9, 108, 144, 0.5);
-    margin: 10px 25px 40px 25px;
+  .login-controls {
+    font-size: $small-size;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    // 记住密码字体大小不一致
+    :deep(.el-checkbox__label) {
+      font-size: $small-size;
+    }
   }
 
-  p {
-    width: 60%;
-    margin: 8px auto;
-    position: relative;
-    left: -15px;
-    color: #ff0000;
-    font-size: 8px;
+  .login-button {
+    box-sizing: border-box;
   }
-}
-
-input {
-  -webkit-text-fill-color: #ffffff !important;
-  transition: background-color 5000s ease-in-out, width 1s ease-out !important;
 }
 </style>
