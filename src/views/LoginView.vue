@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import LoginForm from "@/views/LoginView/LoginForm.vue";
 import { User, Comment } from "@element-plus/icons-vue";
 import { useUserStore } from "@/stores/user";
+import LoginForm from "@/views/LoginView/LoginForm.vue";
+
 const userStore = useUserStore();
 
 const accountRef = ref();
 const phoneRef = ref();
-
 function handleLogin() {
   if (userStore.login.loginWay === "account") {
     accountRef.value.handleLogin();
@@ -63,7 +63,7 @@ function handleLogin() {
 
 .login-form {
   width: 400px;
-  min-width: 25vw;
+  min-width: 22vw;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   font-size: $large-size;

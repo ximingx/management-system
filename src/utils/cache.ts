@@ -5,27 +5,19 @@ class Cache {
   }
 
   set(key: string, value: any) {
-    this.store.setItem(key, JSON.stringify(value));
+    this.store.setItem(key, value);
   }
 
   get(key: string) {
-    const value = this.store.getItem(key);
-    if (value) {
-      return JSON.parse(value);
-    }
-    return null;
+    return this.store.getItem(key);
+  }
+
+  remove(key: string) {
+    this.store.removeItem(key);
   }
 
   clear() {
     this.store.clear();
-  }
-
-  setAllObj(obj: any) {
-    const key = Object.keys(obj);
-    key.forEach((item) => {
-      if (!obj[item]) obj[item] = "";
-      this.store.setItem(item, obj[item]);
-    });
   }
 }
 

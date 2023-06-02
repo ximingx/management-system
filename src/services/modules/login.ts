@@ -1,9 +1,20 @@
 import API from "@/services";
 
 export function loginRequest(data: any) {
-  console.log(data);
   return API.post({
     url: "/login",
     data
+  });
+}
+
+export function getUserInfoRequest(id: any) {
+  return API.get({
+    url: "/users/" + id
+  });
+}
+
+export function getUserListRequest(id: any) {
+  return API.get({
+    url: `/role/${id}/menu`
   });
 }

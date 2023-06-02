@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/login"
+      redirect: "/home"
     },
     {
       path: "/login",
@@ -16,7 +16,8 @@ const router = createRouter({
     {
       path: "/home",
       name: "home",
-      component: () => import(/* webpackChunkName: "home" */ "@/views/HomeView.vue")
+      component: () => import(/* webpackChunkName: "home" */ "@/views/HomeView.vue"),
+      children: []
     },
     {
       path: "/:pathMatch(.*)*",
@@ -24,6 +25,11 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "not-found" */ "@/views/NotFound.vue")
     }
   ]
+});
+
+router.beforeEach((to) => {
+  const token = localStorage.getItem("token");
+  if (to.path.startsWith("/home") && !token) return "/login";
 });
 
 export default router;
