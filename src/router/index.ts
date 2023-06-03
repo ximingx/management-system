@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "@/stores/user";
 import LoginView from "@/views/LoginView.vue";
 
 const router = createRouter({
@@ -31,6 +32,11 @@ router.beforeEach((to) => {
   const token = localStorage.getItem("token");
   if (to.path.startsWith("/main") && !token) {
     return "/login";
+  }
+
+  if (to.path === "/main") {
+    const userStore = useUserStore();
+    return (userStore.firstMenu as any).path;
   }
 });
 

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import type { RouteRecordRaw } from "vue-router";
 import { loginRequest, getUserInfoRequest, getUserListRequest } from "@/services/modules/login";
 import Cache from "@/utils/cache";
 import router from "@/router";
@@ -17,7 +16,8 @@ export const useUserStore = defineStore("user", {
         remember: false
       },
       info: {},
-      menu: []
+      menu: [],
+      firstMenu: null
     };
   },
   actions: {
@@ -45,7 +45,7 @@ export const useUserStore = defineStore("user", {
       Cache.set("menu", JSON.stringify(userMenu));
     },
     dynamicRouter(menu: any) {
-      const localRoutes: RouteRecordRaw[] = [];
+      const localRoutes: any[] = [];
       const files: Record<string, any> = import.meta.glob("@/router/main/**/*.ts", {
         eager: true
       });
@@ -56,12 +56,10 @@ export const useUserStore = defineStore("user", {
       if (!menu) return;
       for (const item of menu) {
         for (const subMenu of item.children) {
-          const route = localRoutes.find((item) => {
-            console.log(item.path, subMenu.url);
-            return item.path === subMenu.url;
-          });
+          const route = localRoutes.find((item) => item.path === subMenu.url);
           if (route) {
             router.addRoute("main", route);
+            if (this.firstMenu === null && route) this.firstMenu = route;
           }
         }
       }
