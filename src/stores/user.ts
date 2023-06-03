@@ -7,17 +7,17 @@ import router from "@/router";
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      token: Cache.get("token") ?? "",
+      token: "",
       login: {
-        username: Cache.get("username") ?? "",
-        password: Cache.get("password") ?? "",
-        phone: Cache.get("phone") ?? "",
-        security: Cache.get("security") ?? "",
+        username: "",
+        password: "",
+        phone: "",
+        security: "",
         loginWay: "account",
-        remember: Boolean(Cache.get("remember")) ?? false
+        remember: false
       },
-      info: JSON.parse(Cache.get("info") || "{}") || {},
-      menu: JSON.parse(Cache.get("menu") || "{}") || []
+      info: {},
+      menu: []
     };
   },
   actions: {
@@ -33,7 +33,7 @@ export const useUserStore = defineStore("user", {
       this.menu = userMenu.data;
       this.dynamicRouter(userMenu.data);
       this.cacheAction(userMenu.data, userInfo.data);
-      await router.push("/home");
+      await router.push("/main");
     },
     cacheAction(userMenu: any, userInfo: any) {
       if (this.login.remember) {
@@ -46,22 +46,41 @@ export const useUserStore = defineStore("user", {
     },
     dynamicRouter(menu: any) {
       const localRoutes: RouteRecordRaw[] = [];
-      const files: Record<string, any> = import.meta.glob("@/router/home/**/*.ts", {
+      const files: Record<string, any> = import.meta.glob("@/router/main/**/*.ts", {
         eager: true
       });
       for (const path in files) {
         const module = files[path];
         localRoutes.push(module.default);
       }
-      // 老六删我数据
       if (!menu) return;
       for (const item of menu) {
         for (const subMenu of item.children) {
-          const route = localRoutes.find((item) => item.path === subMenu.url);
+          const route = localRoutes.find((item) => {
+            console.log(item.path, subMenu.url);
+            return item.path === subMenu.url;
+          });
           if (route) {
-            router.addRoute("home", route);
+            router.addRoute("main", route);
           }
         }
+      }
+    },
+    loadCacheAction() {
+      this.token = Cache.get("token") ?? "";
+      this.login = {
+        username: Cache.get("username") ?? "",
+        password: Cache.get("password") ?? "",
+        phone: Cache.get("phone") ?? "",
+        security: Cache.get("security") ?? "",
+        loginWay: "account",
+        remember: Boolean(Cache.get("remember")) ?? false
+      };
+      this.info = Cache.get("info") ? JSON.parse(Cache.get("info") || "{}") : {};
+      this.menu = Cache.get("menu") ? JSON.parse(Cache.get("menu") || "[]") : [];
+      if (this.token && this.info && this.menu) {
+        this.dynamicRouter(this.menu);
+        router.push("/main");
       }
     },
     async exitAction() {

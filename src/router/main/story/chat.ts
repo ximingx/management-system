@@ -1,5 +1,5 @@
 export default {
-  path: "/home/story/chat",
+  path: "/main/story/chat",
   name: "chat",
   component: () => import("@/views/HomeView/MainSection/story/Chat.vue")
 };

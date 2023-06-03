@@ -1,5 +1,5 @@
 export default {
-  path: "/home/analysis/overview",
+  path: "/main/analysis/overview",
   name: "overview",
   component: () => import("@/views/HomeView/MainSection/analysis/Overview.vue")
 };

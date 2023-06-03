@@ -14,9 +14,10 @@ const icons = [House, Monitor, Setting, Goods, ChatSquare];
       unique-opened
       :collapse="pageStore.aside.collapse"
       :collapse-transition="false"
+      router
     >
       <template v-for="item in userStore.menu" :key="item.id">
-        <el-sub-menu :index="item.id + ''">
+        <el-sub-menu :index="item.url">
           <template #title>
             <el-icon>
               <!--<component :is="item.icon.split('-icon-')[1]" />-->
@@ -40,7 +41,7 @@ const icons = [House, Monitor, Setting, Goods, ChatSquare];
             <span>{{ item.name }}</span>
           </template>
           <template v-for="subItem in item.children" :key="subItem.id + ''">
-            <el-menu-item :index="subItem.id + ''">
+            <el-menu-item :index="subItem.url">
               <template #title>
                 <span>{{ subItem.name }}</span>
               </template>
