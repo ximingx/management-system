@@ -9,4 +9,5 @@ import "normalize.css";
 
 app.use(setupPinia);
 app.use(router);
+
 app.mount("#app");

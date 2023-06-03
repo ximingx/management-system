@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user", {
       },
       info: {},
       menu: [],
-      firstMenu: null
+      firstMenu: null as any
     };
   },
   actions: {
@@ -57,10 +57,8 @@ export const useUserStore = defineStore("user", {
       for (const item of menu) {
         for (const subMenu of item.children) {
           const route = localRoutes.find((item) => item.path === subMenu.url);
-          if (route) {
-            router.addRoute("main", route);
-            if (this.firstMenu === null && route) this.firstMenu = route;
-          }
+          if (route) router.addRoute("main", route);
+          if (this.firstMenu === null && route) this.firstMenu = route;
         }
       }
     },

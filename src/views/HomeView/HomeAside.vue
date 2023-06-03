@@ -10,10 +10,10 @@ const icons = [House, Monitor, Setting, Goods, ChatSquare];
 <template>
   <div class="aside-container">
     <el-menu
-      default-active="39"
-      unique-opened
+      :default-active="userStore.firstMenu.path"
       :collapse="pageStore.aside.collapse"
       :collapse-transition="false"
+      unique-opened
       router
     >
       <template v-for="item in userStore.menu" :key="item.id">
