@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 
-export const useFormStore = defineStore("form", {
+export const useFormVerifyStore = defineStore("login-form", {
   state: () => {
     return {
-      formRules: {
+      defaultRules: {
         username: [
           { required: true, message: "请输入账号", trigger: "blur" },
           { pattern: /^[a-zA-Z0-9_-]{2,16}$/, message: "长度在 1 到 16 个字符", trigger: "blur" }

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { House, Monitor, Setting, Goods, ChatSquare } from "@element-plus/icons-vue";
-import { useUserStore } from "@/stores/user";
-import { usePageStore } from "@/stores/page";
-const userStore = useUserStore();
+import { useGlobalStore } from "@/stores/global";
+import { usePageStore } from "@/stores/main/page";
+
+const globalStore = useGlobalStore();
 const pageStore = usePageStore();
 const icons = [House, Monitor, Setting, Goods, ChatSquare];
 </script>
@@ -10,13 +11,13 @@ const icons = [House, Monitor, Setting, Goods, ChatSquare];
 <template>
   <div class="aside-container">
     <el-menu
-      :default-active="userStore.firstMenu.path"
+      :default-active="globalStore.firstMenu.path"
       :collapse="pageStore.aside.collapse"
       :collapse-transition="false"
       unique-opened
       router
     >
-      <template v-for="item in userStore.menu" :key="item.id">
+      <template v-for="item in globalStore.menu" :key="item.id">
         <el-sub-menu :index="item.url">
           <template #title>
             <el-icon>

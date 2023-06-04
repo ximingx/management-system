@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { User, Comment } from "@element-plus/icons-vue";
-import { useUserStore } from "@/stores/user";
 import LoginForm from "@/views/LoginView/LoginForm.vue";
+import { useLoginStore } from "@/stores/login/login";
 
-const userStore = useUserStore();
+const loginStore = useLoginStore();
 
 const accountRef = ref();
 const phoneRef = ref();
+
 function handleLogin() {
-  if (userStore.login.loginWay === "account") {
+  if (loginStore.loginWay === "account") {
     accountRef.value.handleLogin();
   } else {
     phoneRef.value.handleLogin();
@@ -22,7 +23,7 @@ function handleLogin() {
     <div class="login-form">
       <div class="login-title">后台管理系统</div>
 
-      <el-tabs type="border-card" v-model="userStore.login.loginWay" stretch>
+      <el-tabs type="border-card" v-model="loginStore.loginWay" stretch>
         <el-tab-pane name="account">
           <template #label>
             <el-icon><User /></el-icon>
@@ -41,7 +42,7 @@ function handleLogin() {
       </el-tabs>
 
       <div class="login-controls">
-        <el-checkbox v-model="userStore.login.remember" label="记住密码" />
+        <el-checkbox v-model="loginStore.remember" label="记住密码" />
         <span class="control-item">忘记密码</span>
       </div>
 

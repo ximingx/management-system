@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useUserStore } from "@/stores/user";
+import { useGlobalStore } from "@/stores/global";
 import LoginView from "@/views/LoginView.vue";
+import Cache from "@/utils/cache";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,8 +18,7 @@ const router = createRouter({
     {
       path: "/main",
       name: "main",
-      component: () => import(/* webpackChunkName: "main" */ "@/views/HomeView.vue"),
-      children: []
+      component: () => import(/* webpackChunkName: "main" */ "@/views/HomeView.vue")
     },
     {
       path: "/:pathMatch(.*)*",
@@ -29,14 +29,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  const token = localStorage.getItem("token");
+  const token = Cache.get("token");
+
   if (to.path.startsWith("/main") && !token) {
     return "/login";
   }
 
   if (to.path === "/main") {
-    const userStore = useUserStore();
-    return (userStore.firstMenu as any).path;
+    const globalStore = useGlobalStore();
+    return (globalStore.firstMenu as any).path;
   }
 });
 

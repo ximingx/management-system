@@ -2,7 +2,7 @@
 import HeaderInfo from "./HeaderSection/HeaderInfo.vue";
 import HeaderBread from "./HeaderSection/HeaderBread.vue";
 import { Fold, Expand } from "@element-plus/icons-vue";
-import { usePageStore } from "@/stores/page";
+import { usePageStore } from "@/stores/main/page";
 const pageStore = usePageStore();
 </script>
 
@@ -20,9 +20,10 @@ const pageStore = usePageStore();
 
 <style scoped lang="scss">
 .header-box {
+  flex: 1;
   display: flex;
   align-items: center;
-  line-height: 50px;
+  justify-content: space-between;
 
   .header-main {
     margin-left: 20px;

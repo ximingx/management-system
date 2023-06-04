@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { FormInstance } from "element-plus";
-import { useUserStore } from "@/stores/user";
-import { useFormStore } from "@/stores/form";
 
-const userStore = useUserStore();
-const formStore = useFormStore();
+import { useFormVerifyStore } from "@/stores/login/form";
+import { useLoginStore } from "@/stores/login/login";
+
+const loginStore = useLoginStore();
+const formStore = useFormVerifyStore();
 
 const ruleFormRef = ref<FormInstance>();
 function handleLogin() {
@@ -20,12 +21,10 @@ function handleLogin() {
 }
 
 function login() {
-  if (userStore.login.loginWay === "account") {
-    const { username, password } = userStore.login;
-    userStore.loginAction({ name: username, password });
+  if (loginStore.loginWay === "account") {
+    loginStore.loginAction({ name: loginStore.username, password: loginStore.password });
   } else {
-    const { mobile, security } = userStore.login;
-    userStore.loginAction({ mobile, security });
+    loginStore.loginAction({ cellphone: loginStore.cellphone, security: loginStore.security });
   }
 }
 
@@ -35,22 +34,22 @@ defineExpose({
 </script>
 
 <template>
-  <el-form :model="userStore.login" status-icon :rules="formStore.formRules" ref="ruleFormRef">
-    <div v-if="userStore.login.loginWay === 'account'">
+  <el-form :model="loginStore" status-icon :rules="formStore.defaultRules" ref="ruleFormRef">
+    <div v-if="loginStore.loginWay === 'account'">
       <el-form-item label="账号" prop="username">
-        <el-input v-model="userStore.login.username" placeholder="请输入账号" />
+        <el-input v-model="loginStore.username" placeholder="请输入账号" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="userStore.login.password" type="password" placeholder="请输入密码" />
+        <el-input v-model="loginStore.password" type="password" placeholder="请输入密码" />
       </el-form-item>
     </div>
 
-    <div v-else-if="userStore.login.loginWay === 'phone'">
-      <el-form-item label="手机号" prop="mobile">
-        <el-input v-model="userStore.login.phone" placeholder="请输入手机号" />
+    <div v-else-if="loginStore.loginWay === 'phone'">
+      <el-form-item label="手机号" prop="cellphone">
+        <el-input v-model="loginStore.cellphone" placeholder="请输入手机号" />
       </el-form-item>
       <el-form-item class="flex-box" label="验证码" prop="security">
-        <el-input v-model="userStore.login.security" type="password" placeholder="请输入验证码" />
+        <el-input v-model="loginStore.security" type="password" placeholder="请输入验证码" />
         <el-button>获取验证码</el-button>
       </el-form-item>
     </div>

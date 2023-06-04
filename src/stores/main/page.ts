@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { useUserStore } from "./user";
+import { useGlobalStore } from "@/stores/global";
 
 export const usePageStore = defineStore("page", {
   state: () => {
@@ -12,13 +12,8 @@ export const usePageStore = defineStore("page", {
       },
       header: {
         iconSize: "18px",
-        smallIconSize: "12px",
-        avatarSize: 25,
-        avatar:
-          "https://tse3-mm.cn.bing.net/th/id/OIP-C.-spcVjHPu5cNr2NQodNOfQAAAA?w=204&h=204&c=7&r=0&o=5&dpr=2&pid=1.7"
-      },
-      main: {},
-      router: {}
+        smallIconSize: "12px"
+      }
     };
   },
   actions: {
@@ -27,8 +22,8 @@ export const usePageStore = defineStore("page", {
       this.aside.asideWidth = this.aside.collapse ? this.aside.width : this.aside.expandWidth;
     },
     getBreadcrumb(path: any) {
-      const userStore = useUserStore();
-      const menu: any = userStore.menu;
+      const globalStore = useGlobalStore();
+      const menu: any = globalStore.menu;
       const breadcrumb = [];
       for (const item of menu) {
         for (const subMenu of (item as any).children) {

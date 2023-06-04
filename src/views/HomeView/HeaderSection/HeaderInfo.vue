@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { Message, MuteNotification, CircleClose, User } from "@element-plus/icons-vue";
-import { usePageStore } from "@/stores/page";
-import { useUserStore } from "@/stores/user";
+import {
+  Message,
+  MuteNotification,
+  CircleClose,
+  User,
+  Sunny,
+  Setting
+} from "@element-plus/icons-vue";
+import { usePageStore } from "@/stores/main/page";
+import { useLoginStore } from "@/stores/login/login";
+
 const pageStore = usePageStore();
-const userStore = useUserStore();
+const loginStore = useLoginStore();
 </script>
 
 <template>
@@ -14,23 +22,18 @@ const userStore = useUserStore();
     <el-icon :size="pageStore.header.iconSize">
       <MuteNotification />
     </el-icon>
+    <el-icon :size="pageStore.header.iconSize">
+      <Sunny />
+    </el-icon>
     <el-dropdown>
-      <div class="user-info">
-        <el-avatar
-          shape="square"
-          :size="pageStore.header.avatarSize"
-          :src="pageStore.header.avatar"
-          alt="avatar"
-        />
-        <div>{{ userStore.info.name }}</div>
-      </div>
+      <el-icon :size="pageStore.header.iconSize"><Setting /></el-icon>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>
             <el-icon :size="pageStore.header.smallIconSize"><User /></el-icon>
             <span>个人中心</span>
           </el-dropdown-item>
-          <el-dropdown-item @click="userStore.exitAction">
+          <el-dropdown-item @click="loginStore.exitAction">
             <el-icon :size="pageStore.header.smallIconSize"><CircleClose /></el-icon>
             <span>退出登录</span>
           </el-dropdown-item>
@@ -46,7 +49,7 @@ const userStore = useUserStore();
   align-items: center;
 
   .el-icon {
-    margin: 0 10px 0 0;
+    margin: 0 20px 0 0;
   }
 
   .user-info {

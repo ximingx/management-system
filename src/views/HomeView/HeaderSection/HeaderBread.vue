@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { usePageStore } from "@/stores/page";
-import { useUserStore } from "@/stores/user";
+import { usePageStore } from "@/stores/main/page";
+import { useGlobalStore } from "@/stores/global";
 import { computed } from "vue";
 
 const pageStore = usePageStore();
-const userStore = useUserStore();
+const globalStore = useGlobalStore();
 const router = useRoute();
 const bread = computed(() => {
   return pageStore.getBreadcrumb(router.path);
 });
-userStore.firstMenu = router;
+globalStore.firstMenu = router;
 </script>
 
 <template>

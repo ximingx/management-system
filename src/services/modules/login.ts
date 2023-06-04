@@ -13,7 +13,7 @@ export function getUserInfoRequest(id: any) {
   });
 }
 
-export function getUserListRequest(id: any) {
+export function getUserMenuRequest(id: any) {
   return API.get({
     url: `/role/${id}/menu`
   });

@@ -2,7 +2,7 @@
 import HomeAside from "./HomeView/HomeAside.vue";
 import HomeHeader from "./HomeView/HomeHeader.vue";
 import HomeMain from "./HomeView/HomeMain.vue";
-import { usePageStore } from "@/stores/page";
+import { usePageStore } from "@/stores/main/page";
 const pageStore = usePageStore();
 </script>
 
@@ -28,7 +28,8 @@ const pageStore = usePageStore();
   width: 100vw;
 
   .el-header {
-    height: 40px;
+    height: 60px;
+    display: flex;
   }
 }
 </style>
